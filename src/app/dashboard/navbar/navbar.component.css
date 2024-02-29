@@ -1,0 +1,9 @@
+.navbar {
+    background-color: darkred;
+    text-align: justify;
+}
+.navbar-header {
+    color:aliceblue;
+    padding: 15px;
+    justify-content: left;
+}

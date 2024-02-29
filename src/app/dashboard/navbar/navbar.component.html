@@ -1,0 +1,12 @@
+<!-----------------NAVBAR----------------------->
+<nav class="navbar">
+  <h1 class="navbar-header"><a target="_blank">Zone Delivery Services</a></h1>
+  <div class="d-flex mr-3">
+    <button *ngIf="isSignedIn" (click)="openWallet()" class="btn btn-primary mr-2"><i class="bi bi-wallet2"></i>
+      {{currentBalance | currency:'AED'}}
+    </button>
+    <button *ngIf="isSignedIn" (click)="signOut()" class="btn btn-primary">
+      Sign Out
+    </button>
+  </div>
+</nav>

@@ -1,0 +1,39 @@
+.background {
+  background-color: darkslategrey;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .background {
+    min-height: auto;
+  }
+}
+
+
+.content {
+  text-align: center;
+  padding: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.logo {
+  max-width: 100%;
+  max-height: 78px;
+  background-color: azure;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  color: black;
+  background-color: azure;
+}

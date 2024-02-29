@@ -1,0 +1,60 @@
+<div class="container mt-5">
+    <div *ngIf="selectedProduct" class="card" style="overflow-x: hidden;">
+        <form [formGroup]="editForm">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img [src]="productImage" alt="View Image" class="card-img img-fluid" />
+                    <div style="text-align: center; margin-top: 10px;">
+                        <span>Change Image:</span>
+                        <input id="file-upload" type="file" (change)="addImage($event)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body p-5">
+                        <h2 class="card-title">Edit Product Data</h2>
+                        <div class="form-group mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" formControlName="name">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" formControlName="description">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" formControlName="price">
+                        </div>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#confirmUpdateModal" [disabled]="!editForm.dirty">
+                            Update
+                        </button>
+                        <button [routerLink]="'/dashboard'" class="btn btn-primary ml-2">Go Back</button>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmUpdateModal" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Confirm Update</h2>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update this product?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Back</button>
+                <button type="button" class="btn btn-primary" (click)="onUpdate()"
+                    data-bs-dismiss="modal">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

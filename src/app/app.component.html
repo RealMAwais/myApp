@@ -1,0 +1,10 @@
+<ngx-ui-loader></ngx-ui-loader>
+<ng-container *ngIf="isUserAuthenticated; else signIn">
+    <app-dashboard></app-dashboard>
+</ng-container>
+<ng-template #signIn>
+    <app-sign-in></app-sign-in>
+</ng-template>
+<ng-template *ngIf="isForgetPassword">
+    <app-forget-password></app-forget-password>
+</ng-template>

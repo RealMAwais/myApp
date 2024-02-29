@@ -1,0 +1,252 @@
+<div class="container-fluid jumbotron">
+    <div class="row">
+        <div class="col-6">
+            <div class="input-group">
+                <input type="text" title="Search Product Details" class="form-control" [(ngModel)]="searchQuery"
+                    placeholder="search product by name or description">
+                <button class="btn btn-sm btn-primary" [disabled]="!searchQuery" (click)="searchButton()">
+                    <i class="bi bi-search p-1"></i>Search
+                </button>
+            </div>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-primary" (click)="resetFilters()"> Reset </button>
+        </div>
+
+        <div class="col-2 text-end">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newModal">
+                <i class="fa fa-circle"></i> Add Product
+            </button>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------- DATA TABLE DISPLAY HERE--------- ----------------------------------->
+<div class="container-fluid">
+    <table class="table p-2">
+        <thead>
+            <tr>
+                <th scope="col" class="align-middle columnColor">SR.</th>
+                <th scope="col" class="align-middle columnColor">PICTURE</th>
+                <th scope="col" class="align-middle columnColor" style="width: 250px;">PRODUCT-NAME
+                    <a (click)="sortArray('name',sortingOrder)" class="pointer"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="16" height="16" fill="currentColor" class="bi bi-sort-alpha-down"
+                            viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M10.082 5.629 9.664 7H8.598l1.789-5.332h1.234L13.402 7h-1.12l-.419-1.371h-1.781zm1.57-.785L11 2.687h-.047l-.652 2.157h1.351z" />
+                            <path
+                                d="M12.96 14H9.028v-.691l2.579-3.72v-.054H9.098v-.867h3.785v.691l-2.567 3.72v.054h2.645V14zM4.5 2.5a.5.5 0 0 0-1 0v9.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L4.5 12.293V2.5z" />
+                        </svg>
+                        <i *ngIf="sortingOrder !=='ascending'" class="fa fa-arrow-up"></i>
+                        <i *ngIf="sortingOrder =='ascending'" class="fa fa-arrow-down"></i>
+                    </a>
+                </th>
+                <th scope="col" class="align-middle columnColor" style="width: 550px;">DESCRIPTION</th>
+                <th scope="col" class="align-middle columnColor ml-2">PRICE</th>
+                <th scope="col" class="align-middle columnColor">ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of myLocalArray | 
+                    paginate:{ itemsPerPage: 4, currentPage: p, totalItems: totalLength} | 
+                    searchfilter: searchValue ; let oddElement = odd; let i= index; " [ngClass]="{'odd': oddElement}">
+                <td class="align-middle">{{i+1}}</td>
+                <td class="align-middle">
+                    <div class="d-flex align-items-center">
+                        <img *ngIf="data.picture" [src]="data.picture" alt="not_found"
+                            style="width: 75px; height: 75px; object-fit: cover; border-radius: 2%;" />
+                        <span *ngIf="!data.picture">
+                            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                style="width: 75px; height: 75px; object-fit: cover; border-radius: 2%;" />
+                        </span>
+                    </div>
+                </td>
+                <td class="align-middle">{{data.name}}</td>
+                <td class="align-middle">{{data.description}}</td>
+                <td class="align-middle ml-2">{{data.price | currency: 'AED ' }}</td>
+                <td class="align-middle">
+                    <!-- View Button trigger modal -->
+                    <!-- <button type="button" class="btn btn-primary btn-sm" (click)="viewImage(data.id)" data-bs-toggle="modal" data-bs-target="#viewImageModal"
+                        data-toggle="tooltip" data-placement="bottom" title="view"><i class="bi bi-eye"></i>
+                    </button> -->
+                    <button type="button" class="btn btn-primary btn-sm" (click)="viewProduct(data.id)"
+                        data-toggle="tooltip" data-placement="bottom" title="view">
+                        <i class="bi bi-eye"></i>
+                    </button>
+
+                    <!-- Edit Button trigger modal -->
+                    <!-- <button type="button" class="btn btn-secondary btn-sm ml-1" data-bs-toggle="modal"
+                        data-bs-target="#editModalCenter" (click)="onEdit(data.id)" data-toggle="tooltip"
+                        data-placement="bottom" title="edit"><i class="bi bi-pencil"></i>
+                    </button> -->
+                    <button type="button" class="btn btn-secondary btn-sm ml-1"
+                        [routerLink]="['/edit-product', data.id]" data-toggle="tooltip" data-placement="bottom"
+                        title="edit">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+
+                    <!-- Delete Button trigger modal -->
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" style="margin-left: 5px" (click)="deleteIndexId = data.id"
+                        data-toggle="tooltip" data-placement="bottom" title="delete"><i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!----------------------------------------------------------- DATA TABLE END HERE--------- ----------------------------------->
+    <div class="pagination">
+        <pagination-controls (pageChange)="p=$event"></pagination-controls>
+    </div>
+</div>
+<!----------------------------------------------------------- NEW MODAL FORM DETAILS---------- ----------------------------------->
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLongTitle">Enter New Product Data</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="resetForm();"
+                    aria-label="Close"></button>
+            </div>
+            <!-- New Product Modal Form Starts Here -->
+            <div class="modal-body">
+                <form [formGroup]="productForm">
+                    <!-- Image Upload Button -->
+                    <div style="text-align: center;" class="avatar">
+                        <img *ngIf="productImage" [src]="productImage" alt="avatar"
+                            style="width: 80px; height: 80px; object-fit: cover;" class="rounded-circle" />
+                    </div>
+                    <div style="text-align:center; margin: 5px;">
+                        <label for="file-upload" class="custom-file-upload btn btn-default" style="text-align: center">
+                            <i class="fa fa-image fa-2xl"></i> Choose image
+                        </label>
+                        <input id="file-upload" type="file" formArrayName="picture" (change)="addImage($event)" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="name">Name</label>
+                        <input type="name" class="form-control" id="name" formControlName="name"
+                            placeholder="Enter Product Name">
+                        <div *ngIf="f.name.touched && f.name.invalid" class="alert alert-danger">
+                            <div *ngIf="f.name.errors && f.name.errors.required">Name is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="description">Description</label>
+                        <input type="description" class="form-control" id="description" formControlName="description"
+                            placeholder="Enter description">
+                        <div *ngIf="f.description.touched && f.description.invalid" class="alert alert-danger">
+                            <div *ngIf="f.description.errors && f.description.errors.required">description is required.
+                            </div>
+                            <div *ngIf="f.description.errors && f.description.errors.pattern">Please Enter valid
+                                description.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" id="price" formControlName="price"
+                            placeholder="Enter Valid price Number">
+                        <div *ngIf="f.price.touched && f.price.invalid" class="alert alert-danger">
+                            <div *ngIf="f.price.errors && f.price.errors.required">price Number is required.</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="clear" class="btn btn-light" data-dismiss="modal"
+                    (click)="resetForm()">Reset</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    (click)=uploadDataoFireStorage()>Add
+                    Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------- EDIT MODAL BUTTON DETAILS--------- ----------------------------------->
+<div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="ModalLongTitle">Edit Product Data</h2>
+                <!----------------------------- Close Button--------------------->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editForm">
+                    <!-- Image Change Button Start Here -->
+                    <div class="form-group">
+                        <div style="text-align: center;" class="avatar">
+                            <img [src]="productImage" style="width: 80px; height: 80px; object-fit: cover;" />
+                        </div>
+                        <div style="text-align:center;">
+                            <input id="file-upload" type="file" formArrayName="picture" (change)="addImage($event)" />
+                        </div>
+                    </div>
+                    <!-- Image Upload Button End Here-->
+                    <div class="form-group mb-3">
+                        <label for="name">Name</label>
+                        <input type="name" class="form-control" id="name" formControlName="name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="description">description address</label>
+                        <input type="description" class="form-control" id="description" formControlName="description">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="price">Price</label>
+                        <input type="tel" class="form-control" id="price" formControlName="price">
+                    </div>
+                    <button class="btn btn-dark mb-3" data-bs-dismiss="modal" (click)="onUpdate()">
+                        Update
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------- DELETE MODAL BUTTON DETAILS-------------------------------------------->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Delete This Product</h2>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Back</button>
+                <button type="button" class="btn btn-primary" (click)="deleteProduct(deleteIndexId)"
+                    data-bs-dismiss="modal">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------- VIEW MODAL BUTTON DETAILS-------------------------------------------->
+<!-- <div class="modal fade" id="viewImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center">
+                    <img *ngIf="productImage" [src]="productImage" alt="View Image" class="img-fluid" />
+                </div>
+                <div class="p-2">
+                    <h5>{{ selectedItem?.name }}</h5>
+                    <p><strong>Details:</strong> {{ selectedItem?.description }}</p>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> -->

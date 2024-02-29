@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-header">
+            <h2 class="text-center">Wallet</h2>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Your current balance: {{currentBalance | currency : 'AED'}}</p>
+
+            <!-- Top-Up Section -->
+            <div class="mb-3">
+                <h5>Top-Up</h5>
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="Enter amount" [(ngModel)]="topUpAmount">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="button" (click)="topUpBalance()">Top-Up</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdrawal Section -->
+            <div class="mb-3">
+                <h5>Withdrawal</h5>
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="Enter amount" [(ngModel)]="withDrawAmount">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger" type="button" (click)="withdDrawBalance()">Withdraw</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Will make Transaction History Section with date and time-->
+            <!-- <h5>Transaction History</h5>
+            <ul class="list-group">
+                <li class="list-group-item">Received $50.00 from John Doe</li>
+                <li class="list-group-item">Withdrawn $20.00 for shopping</li>
+                <li class="list-group-item">Topped up $30.00</li>
+            </ul> -->
+        </div>
+    </div>
+</div>

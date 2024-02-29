@@ -1,0 +1,100 @@
+ @import '~bootstrap/dist/css/bootstrap.min.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+ html,
+ body {
+     height: 100%;
+ }
+
+ h3 {
+     color: black;
+     text-transform: capitalize;
+     text-decoration: underline;
+     text-shadow: #70c5c0;
+ }
+
+ .add-btn {
+     justify-content: right;
+     padding: 10px;
+ }
+
+ h1 {
+     color: aliceblue;
+ }
+
+ .slider {
+     width: auto;
+     height: 450px;
+ }
+
+ .jumbotron {
+     padding: 10px 15px 10px 15px;
+     background-color: whitesmoke;
+ }
+
+ .pagination {
+     float: right;
+     font-size: 12px;
+     bottom: 0;
+ }
+
+ .pointer {
+     cursor: pointer;
+     margin-left: 10px;
+     color: black !important;
+     background-color: whitesmoke;
+ }
+
+ .columnColor {
+     background: #70c5c0;
+ }
+
+ .odd {
+     background: whitesmoke
+ }
+
+ .avatar {
+     /* position: absolute; */
+     margin: 0 auto;
+     left: 0;
+     right: 0;
+     /* top: -50px; */
+     width: 150px;
+     height: 150px;
+     border-radius: 2%;
+     z-index: 9;
+     background: transparent;
+ }
+
+ .overlay {
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     z-index: 2;
+     backdrop-filter: blur(2px);
+ }
+
+ html,
+ /* body {
+     height: 100%;
+ } */
+
+ body {
+     margin: 0;
+     font-family: Roboto, "Helvetica Neue", sans-serif;
+ }
+
+ .mat-snack-bar-container {
+    background-color: $mat-primary;
+    color: $mat-primary-contrast;
+    text-align: center;
+    border-radius: 5px;
+    /* font-weight: bold; */
+    top: 150px !important;
+    right: 0px !important;
+    position: fixed;
+    margin: 20vh;
+}

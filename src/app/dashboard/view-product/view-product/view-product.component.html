@@ -1,0 +1,39 @@
+<div class="container mt-5 ml-2">
+  <div *ngIf="selectedProduct" class="card" style="overflow-x: hidden;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img *ngIf="selectedProduct.picture" [src]="selectedProduct.picture" alt="View Image"
+          class="card-img img-fluid" />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body p-5">
+          <h2 class="card-title">Product Details</h2>
+          <h5 class="card-subtitle mb-4">{{ selectedProduct.name }}</h5>
+          <p class="card-text"><strong>Details:</strong> {{ selectedProduct.description }}</p>
+          <p class="card-text"><strong>Price:</strong> {{ selectedProduct.price | currency: 'AED ' }}</p>
+          <div class="mt-4">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- confirmationModal to Buy product -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm Purchase</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to purchase this product?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onBuyConfirmed(selectedProduct.price)">Buy Now</button>
+      </div>
+    </div>
+  </div>
+</div>
